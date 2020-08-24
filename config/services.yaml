@@ -18,7 +18,7 @@ services:
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'
@@ -38,3 +38,6 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '%env(resolve:API_WSDL)%'
+
+    App\Repository\:
+        resource: ../src/Repository

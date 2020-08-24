@@ -29,24 +29,23 @@ class HotelSearch
 
     /**
      * @param SearchRequest $request
-     * @return bool
-     * @throws
+     * @return boolean
+     * @throws \Exception
      */
-    public function search(SearchRequest $request)
+    public function search(SearchRequest $request): bool
     {
         try {
             $this->em->persist($request);
-            $this->em->flush();
             $results = $this->retriever->getByRequest($request);
             array_map([$this->em, 'persist'], $results);
             $request->setStatus(SearchRequest::STATUS_COMPLETE);
-            $this->em->flush();
         } catch (\Exception $exception) {
             $request->setStatus(SearchRequest::STATUS_ERROR);
-            $this->em->flush();
             throw $exception;
+        } finally {
+            $this->em->flush();
         }
 
-        return $request->getStatus() == SearchRequest::STATUS_COMPLETE;
+        return $request->getStatus() === SearchRequest::STATUS_COMPLETE;
     }
 }
