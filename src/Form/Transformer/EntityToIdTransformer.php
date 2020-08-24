@@ -73,7 +73,7 @@ class EntityToIdTransformer implements DataTransformerInterface
         }
         $value = explode('|', $value);
         if (count($value) > 1 && count($value) % 2 != 0) {
-            throw new \InvalidArgumentException('Incorrect identifier ' . $value);
+            throw new \InvalidArgumentException('Incorrect identifier ' . implode('|', $value));
         }
         if (count($value) == 1) {
             // Не буду усложнять

@@ -41,12 +41,9 @@ class HotelRetriever implements HotelRetrieverInterface
         $this->serviceUrl = $serviceUrl;
     }
 
-    /**
-     * @return \SoapClient
-     */
-    protected function getSoapClient()
+    protected function getSoapClient(): \SoapClient
     {
-        if(!$this->soapClient){
+        if(null === $this->soapClient){
             $this->soapClient = new \SoapClient(
                 $this->serviceUrl,
                 array(
@@ -118,7 +115,7 @@ class HotelRetriever implements HotelRetrieverInterface
             ->findBy(['id' => array_keys($hotelIds)])
         ;
         foreach ($entities as $entity) {
-            /** @var $entity Hotel */
+            /** @var Hotel $entity */
             $hotels[$entity->getId()] = $entity;
         }
         $entities = $this->em
@@ -126,7 +123,7 @@ class HotelRetriever implements HotelRetrieverInterface
             ->findBy(['id' => array_keys($mealIds)])
         ;
         foreach ($entities as $entity) {
-            /** @var $entity Meal */
+            /** @var Meal $entity */
             $meals[$entity->getId()] = $entity;
         }
         
@@ -159,7 +156,7 @@ class HotelRetriever implements HotelRetrieverInterface
 
             $result = new SearchResult();
             $result->setHotel($hotels[$item->hotelId]);
-            $result->setPrice(new Money($item->price, $item->currency));
+            $result->setPrice(new Money(sprintf("%.3f", $item->price), $item->currency));
             $result->setRoomName($item->rooms->item[0]->roomName);
             $result->setRequest($request);
             $result->setMeal(isset($meals[$item->mealId]) ? $meals[$item->mealId] : $meals[Meal::MEAL_UNKNOWN]);

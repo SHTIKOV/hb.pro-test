@@ -17,7 +17,7 @@ class StayDateRangeValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        /* @var $constraint StayDateRange */
+        /** @var StayDateRange $constraint */
         if (
             !method_exists($value, $constraint->startDate) ||
             !method_exists($value, $constraint->endDate)
@@ -31,11 +31,9 @@ class StayDateRangeValidator extends ConstraintValidator
                 )
             );
         }
-        /** @var \DateTime $startDate */
         $startDate = call_user_func([$value, $constraint->startDate]);
-        /** @var \DateTime $endDate */
         $endDate = call_user_func([$value, $constraint->endDate]);
-        if (!$startDate instanceof \DateTime || !$endDate instanceof \DateTime) {
+        if (!($startDate instanceof \DateTime) || !($endDate instanceof \DateTime)) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->addViolation()

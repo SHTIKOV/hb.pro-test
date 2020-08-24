@@ -22,7 +22,7 @@ class StayDateRange extends Constraint
     /**
      * Name of method to fetch last date of range
      *
-     * @var
+     * @var string
      */
     public $endDate;
 
